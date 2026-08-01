@@ -1,0 +1,78 @@
+# Synthetic 2D irregular point cloud + Delaunay quadrature weights.
+# Launch: bash tests/train_eval_2d_irregular.sh
+
+key:
+  save_name: "synth_2d_n128_q"
+  run_dir: "runs/synth_2d_n128_q"
+  gpu: "0"
+  use_multi_net: 1
+
+data:
+  cache_path: "data/transolver_2d_irregular_n128.pt"
+  coord_norm_path: "runs/synth_2d_n128_q/coord_norm.pt"
+  train_split: 0.8
+  split_by: "random"
+  seed: 42
+  padding: 0
+  padding_value: 0.0
+  pos_norm_type: "min-max"
+  fx_norm_type: "mean-std"
+  y_norm_type: "mean-std"
+  filter_degenerate_y: 1
+  y_degenerate_eps: 1.0e-6
+  empty_fx: 0
+  use_sato: 0
+  sato_index_path: ""
+  use_node_weight: 1
+  persist_node_weight: 0
+  node_weight_max_edge: 0.0
+  output_cols: ["u"]
+
+model:
+  name: "Transolver_1D"
+  time_input: 0
+  use_multi_net: 1
+  use_spectral: 0
+  spectral_modes: 32
+  spectral_hi_freq_boost: 0.0
+  n_hidden: 32
+  n_layers: 2
+  n_heads: 1
+  dropout: 0.0
+  mlp_ratio: 2
+  slice_num: 16
+  ref: 8
+  unified_pos: 1
+  use_edge_conv: 0
+
+train:
+  batch_size: 8
+  epochs: 10
+  lr: 0.001
+  weight_decay: 1.0e-4
+  lr_scheduler: "cosine"
+  lr_min: 1.0e-6
+  early_stop: 0
+  early_stop_patience: 100
+  early_stop_min_delta_rel: 0.001
+  max_grad_norm: 0.1
+  sdf_weight_alpha: 0.0
+  grad_loss_weight: 0.0
+  grad_k: 8
+  grad_eps: 1.0e-6
+  knn_enable: 0
+  knn_cache_rebuild: 0
+  knn_block_size: 256
+
+eval:
+  eval_interval: 1
+  max_eval_batches: 0
+  viz_interval: 100000
+  auto_eval: 0
+  num_plot: 2
+  high_stress_analysis: 0
+  per_channel_stress: 0
+  stress_channel_idx: 0
+  stress_lower_ratio: 0.6666666667
+  stress_upper_ratio: 1.0
+  error_thresholds: "0.01,0.05,0.10,0.20"
