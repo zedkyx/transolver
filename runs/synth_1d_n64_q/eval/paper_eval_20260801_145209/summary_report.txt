@@ -1,0 +1,5 @@
+Evaluation Report - 20260801_145209
+Model: /Users/quan/Desktop/zedkyx/transolver/runs/synth_1d_n64_q/checkpoints/synth_1d_n64_q_best_eval.pt
+Test Set Size: 7
+--------------------------------------------------
+Channel 0 (u): Avg RelL2: 0.2654, Avg RelLinf: 0.3929, Avg AbsL2: 7.599517e-01, Avg AbsLinf: 2.236971e-01, Avg MSE: 9.614630e-03, Avg MAE: 7.755078e-02, Avg NMSE: 7.554343e-02

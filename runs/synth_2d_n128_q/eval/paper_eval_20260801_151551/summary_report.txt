@@ -1,0 +1,5 @@
+Evaluation Report - 20260801_151551
+Model: /Volumes/MyPassport/transolver/runs/synth_2d_n128_q/checkpoints/synth_2d_n128_q_best_eval.pt
+Test Set Size: 7
+--------------------------------------------------
+Channel 0 (u): Avg RelL2: 0.3799, Avg RelLinf: 0.5231, Avg AbsL2: 1.419437e+00, Avg AbsLinf: 3.511222e-01, Avg MSE: 1.644934e-02, Avg MAE: 9.168040e-02, Avg NMSE: 1.469585e-01

@@ -1,0 +1,3 @@
+time_average = 
+memory = 0.11MB
+inference time = 0.001227s/sample
