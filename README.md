@@ -78,8 +78,11 @@ geom_id    : [B] int64        geometry id for merged datasets
 metadata   : dict             optional split metadata
 ```
 
-If `node_weight` is absent and `use_node_weight: 1` is enabled, the loader can
-compute Delaunay lumped nodal weights from `pos`.
+When `use_node_weight: 1` is enabled, training/evaluation compute quadrature
+weights after coordinate normalization, so the weights live in the same
+coordinate system that the model sees. A cached `node_weight` field is treated
+as optional metadata; the default training/evaluation path recomputes weights
+from normalized `pos` for consistency.
 
 ## Quick smoke tests
 
@@ -146,8 +149,8 @@ python -m scripts.transolver.public.train_ddp --config path/to/config.yaml
 ## Quadrature weights
 
 For irregular grids, pointwise averaging can make dense regions dominate the
-loss and normalization statistics. Enabling node weights makes the training
-objective closer to a continuous-domain integral:
+normalization statistics and model slice aggregation. Enabling node weights
+makes these operations closer to continuous-domain integration:
 
 ```yaml
 data:
@@ -158,8 +161,13 @@ data:
 
 Recommended behavior:
 
-- If the dataset already contains `node_weight`, the loader uses it directly.
-- If not, Delaunay lumped weights are computed from `pos`.
+- Delaunay lumped weights are computed from normalized `pos`.
+- For intrinsically 1D point clouds, interval lumped lengths are used instead.
+- `node_weight_max_edge <= 0` disables edge filtering.
+- If `node_weight_max_edge > 0`, the value is interpreted in normalized-
+  coordinate units.
+- If `persist_node_weight: 1`, the recomputed normalized-coordinate weights are
+  written back to the `.pt` cache.
 - Use `mask` when samples are padded to a common node count.
 
 ## Evaluation outputs
